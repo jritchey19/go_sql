@@ -87,3 +87,12 @@ func IsEmailUniqueErr (err error) bool {
 	
 	return false
 }
+
+func IsValueEmptyErr (err error) bool {
+	var sqliteErr *sqlite.Error
+	if errors.As(err, &sqliteErr) {
+		return sqliteErr.Code() == sqlite3.SQLITE_CONSTRAINT_CHECK
+	}
+
+	return false
+}
