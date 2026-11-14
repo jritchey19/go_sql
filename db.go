@@ -79,6 +79,23 @@ func (s *Store) GetUser(id string) (User, error) {
 	return user, nil
 }
 
+func (s *Store) UpdateUser(id string, name string, email string) error {
+	updateStmt := `
+		UPDATE users
+		SET name = ?,
+		    email = ?
+		WHERE id = ?;
+	`
+
+	_, err := s.store.Exec(updateStmt, name, email, id)
+	if err != nil {
+		updateErr := fmt.Errorf("updateuser: failed to update user %v: %w", id, err)
+		return updateErr
+	}
+
+	return nil
+}
+
 func IsEmailUniqueErr (err error) bool {
 	var sqliteErr *sqlite.Error
 	if errors.As(err, &sqliteErr) {

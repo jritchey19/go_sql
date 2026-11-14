@@ -35,4 +35,18 @@ func main() {
 	} else {
 		fmt.Printf("Got User:\n\tid: %v\n\tname: %v\n\temail: %v\n", userStct1.ID, userStct1.Name, userStct1.Email)
 	}
+
+	err = db.UpdateUser(user1, "changed name", "test1@test.com")
+	if err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		userStct1, err := db.GetUser(user1)
+		if err != nil {
+			fmt.Println(err)
+			return
+		} else {
+			fmt.Printf("Got User:\n\tid: %v\n\tname: %v\n\temail: %v\n", userStct1.ID, userStct1.Name, userStct1.Email)
+		}
+	}
 }
